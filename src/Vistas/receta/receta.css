@@ -1,0 +1,8 @@
+.center-carousel {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente (opcional) */
+    padding: auto;
+    height: 100vh; /* Altura al 100% de la ventana */
+  
+  }
