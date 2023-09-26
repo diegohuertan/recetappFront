@@ -5,10 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from './logo.svg';
 import './App.css';
 import './index.css';
-import Home from './Vistas/home';
-import Login from './Vistas/login';
-import CustomNavbar from './Vistas/nav';
-import Recetas from './Vistas/receta';
+import Home from './Vistas/home/home';
+import Login from './Vistas/login/login';
+import CustomNavbar from './componentes/nav';
+import Recetas from './Vistas/receta/receta';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

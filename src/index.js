@@ -4,11 +4,11 @@ import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './index.css'
-import Nav from './nav';
+import Nav from './componentes/nav';
 
-import Login from './Vistas/login';
-import Home from './Vistas/home';
-import Recetas from './Vistas/receta';
+import Login from './Vistas/login/login';
+import Home from './Vistas/home/home';
+import Recetas from './Vistas/receta/receta';
 
 
 function App() {
