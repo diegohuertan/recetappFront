@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './login.css';
 
 function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ function Login({ setIsLoggedIn }) {
               />
               <Form.Check
                 type="radio"
-                label="Jugador"
+                label="Cocinero"
                 name="perfil"
                 id="perfil2"
                 value="jugador"
@@ -99,7 +100,7 @@ function Login({ setIsLoggedIn }) {
               />
               <Form.Check
                 type="radio"
-                label="Socio"
+                label="Valorador"
                 name="perfil"
                 id="perfil3"
                 value="socio"
