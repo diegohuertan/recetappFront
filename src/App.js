@@ -27,6 +27,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recetas" element={<Recetas />} />
+        <Route
+            path="/api/recetas"
+            element={<p>Esta es la página de recetas de la API</p>}
+          />
       </Routes>
     </div>
   </BrowserRouter>

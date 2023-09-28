@@ -36,6 +36,11 @@ function App() {
           path="/recetas"
           element={isLoggedIn ? <Recetas /> : <Navigate to="/login" replace />}
         />
+
+          <Route
+            path="/api/recetas"
+            element={<p>Esta es la página de recetas de la API</p>}
+          />
           
           
         </Routes>

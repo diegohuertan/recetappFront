@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   password: 'diego123',
   database: 'recetapp_db',
 });
-
+                                                                  
 connection.connect((err) => {
     if (err) throw err;
     console.log('Conexión a la base de datos establecida');
@@ -21,6 +21,7 @@ connection.connect((err) => {
 
 app.post('/api/login', (req, res) => {
   const { correo, contraseña, perfil } = req.body;
+  
 
   connection.query(
     'SELECT COUNT(*) AS count FROM usuarios WHERE correo = ? AND contraseña = ? AND perfil = ?',
@@ -41,6 +42,18 @@ app.post('/api/login', (req, res) => {
   );
 });
 
+app.get('/api/recetas', (req, res) => {
+  // Realiza una consulta a la base de datos para obtener las recetas
+  connection.query('SELECT * FROM receta', (error, results) => {
+    if (error) {
+      console.error('Error al realizar la consulta:', error);
+      res.json({ success: false, message: 'Error en el servidor' });
+    } else {
+      // Envía los resultados de la consulta en formato JSON
+      res.json({ success: true, recetas: results });
+    }
+  });
+});
 
 
 app.use(express.static(path.join(__dirname, 'build')));
