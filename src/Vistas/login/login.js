@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-
+const serverUrl = 'http://localhost:3000';
 function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [correo, setEmail] = useState('');
@@ -20,7 +20,7 @@ function Login({ setIsLoggedIn }) {
     if (isValidLogin) {
       try {
         // Realiza una solicitud POST al backend para autenticar las credenciales
-        const response = await axios.post('/api/login', {
+        const response = await axios.post(`${serverUrl}/api/validarsesion`, {
           correo: correo,
           contraseña: contraseña,
           perfil: perfil,
