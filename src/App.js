@@ -7,6 +7,7 @@ import './App.css';
 import './index.css';
 import Home from './Vistas/home/home';
 import Login from './Vistas/login/login';
+import CrearReceta from './Vistas/crear/crearReceta';
 import CustomNavbar from './componentes/nav';
 import Recetas from './Vistas/receta/receta';
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recetas" element={<Recetas />} />
+        <Route path="/crearReceta" element={<CrearReceta />} />
         <Route
             path="/api/recetas"
             element={<p>Esta es la página de recetas de la API</p>}

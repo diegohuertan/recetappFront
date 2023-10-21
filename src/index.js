@@ -9,6 +9,7 @@ import Nav from './componentes/nav';
 import Login from './Vistas/login/login';
 import Home from './Vistas/home/home';
 import Recetas from './Vistas/receta/receta';
+import CrearReceta from './Vistas/crear/crearReceta';
 
 
 function App() {
@@ -35,6 +36,12 @@ function App() {
           
           path="/recetas"
           element={isLoggedIn ? <Recetas /> : <Navigate to="/login" replace />}
+        />
+
+          <Route
+          
+          path="/crearReceta"
+          element={isLoggedIn ? <CrearReceta /> : <Navigate to="/login" replace />}
         />
 
           <Route

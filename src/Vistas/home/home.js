@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Card, Button } from 'react-bootstrap';
-import './home.css';
+import '../../styles/home.css';
 
 
 function Home() {

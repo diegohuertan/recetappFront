@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
+import '../../styles/login.css';
 const serverUrl = 'http://localhost:3000';
 function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
