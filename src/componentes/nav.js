@@ -13,7 +13,9 @@ function CustomNavbar() {
           <Nav.Link as={Link} to="/">Home</Nav.Link>
           <Nav.Link as={Link} to="/login">Login</Nav.Link>
           <Nav.Link as={Link} to="/recetas">recetas</Nav.Link>
+          <Nav.Link as={Link} to="/crearReceta">Crear Receta</Nav.Link>
           <Nav.Link as={Link} to="/perfil">perfil</Nav.Link>
+          
           
   
         </Nav>
