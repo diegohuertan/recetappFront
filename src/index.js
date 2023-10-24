@@ -10,7 +10,7 @@ import Login from './Vistas/login/login';
 import Home from './Vistas/home/home';
 import Recetas from './Vistas/receta/receta';
 import CrearReceta from './Vistas/crear/crearReceta';
-
+import Usuario from './Vistas/usuario/usuario';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,7 +48,11 @@ function App() {
             path="/api/recetas"
             element={<p>Esta es la página de recetas de la API</p>}
           />
+          <Route
           
+          path="/perfil"
+          element={isLoggedIn ? <Usuario /> : <Navigate to="/login" replace />}
+        />
           
         </Routes>
 
