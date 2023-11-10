@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import '../../styles/receta.css';
+import PageContainer from '../../components/container/PageContainer';
 
 const serverUrl = 'http://localhost:3000';
 
@@ -35,7 +36,8 @@ function Recetas() {
   };
 
   return (
-    <div className="card-container">
+    
+    <PageContainer title="Vista Recetas" description="aaaaaaaaaaaaaaaaa">
       {recetas.map((receta) => (
         <Card key={receta.receta_id} className='card'>
           <Card.Img variant="top" src={receta.imagen} />
@@ -77,7 +79,8 @@ function Recetas() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+      
+    </PageContainer>
   );
 }
 
