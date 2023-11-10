@@ -4,6 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
+import Header from '../../componentes/header';
+import Footer from '../../componentes/footer';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/login.css';
 const serverUrl = 'http://localhost:3000';
@@ -51,8 +53,18 @@ function Login({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <Form className="custom-form p-4 rounded" onSubmit={handleSubmit}>
+    <div className="container">
+    
+        <Header className= "header-login">
+          <h1 className="text-center">Bienvenido a Recetas</h1>
+        </Header>
+
+        <Footer className= "footer"> 
+
+        </Footer>
+        
+      
+      <Form className="login" onSubmit={handleSubmit}>
         <Form.Group as={Row} controlId="formHorizontalEmail">
           <Form.Label column sm={4}>
             Email

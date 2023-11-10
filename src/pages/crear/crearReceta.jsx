@@ -3,6 +3,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import '../../styles/crearReceta.css';
+import PageContainer from '../../components/container/PageContainer';
 
 const serverUrl = 'http://localhost:3000';
 
@@ -65,7 +66,7 @@ function CrearReceta() {
     };
 
     return (
-        <div className="card-crearreceta">
+        <PageContainer >
             {parte1 && (
             <Form onSubmit={handleSubmit} className='crearreceta'>
                 <Form.Group controlId="formTitulo">
@@ -134,7 +135,7 @@ function CrearReceta() {
                 </Button>
             </Form>
             )}
-        </div>
+        </PageContainer>
     );
 }
 
