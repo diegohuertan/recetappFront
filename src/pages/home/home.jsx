@@ -3,7 +3,7 @@ import PageContainer from "../../components/container/PageContainer";
 
 function Home() {
   return (
-    <PageContainer title="Pagina inicio" description="aaaaaaaaaaaaaaaaa">
+    <PageContainer title="Pagina inicio" description="aaaaaaaaaaaaaaaaa" >
       <div
         style={{
           backgroundColor: "#757ce8",
