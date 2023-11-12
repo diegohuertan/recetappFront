@@ -1,6 +1,5 @@
-.recetas-container {
-  
-  display: grid;
+.RecetaInfo {
+    display: grid;
   grid-template-rows:1fr 1fr 1fr;
   grid-template-columns:repeat(
     auto-fill,
@@ -11,7 +10,3 @@
   grid-gap: 30px;
   background-color: azure;
 }
-
-  .recetas{
-    background-color: azure;
-  }

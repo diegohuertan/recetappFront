@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/usuario.css';
 import Card from 'react-bootstrap/Card';
+import PageContainer from '../../components/container/PageContainer';
 //import Button from 'react-bootstrap/Button';
 //import Modal from 'react-bootstrap/Modal';
 
@@ -26,6 +27,7 @@ function Usuario() {
     }, []);
   
     return (
+      <PageContainer>
       <div className="card-container">
         {userData.map((users) => (
           <Card key={users.usuario_id} className='card'>
@@ -38,6 +40,7 @@ function Usuario() {
         ))}
         
       </div>
+      </PageContainer>
     );
   }
   
