@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import './PageContainer.css';
 
 const PageContainer = ({ title, description, children }) => (
-  <div>
+  <div className="mainApp">
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />

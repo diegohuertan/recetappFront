@@ -1,5 +1,6 @@
 import React from "react";
 import PageContainer from "../../components/container/PageContainer";
+import { Grid, Typography } from "@mui/material";
 
 function Home() {
   return (
@@ -15,7 +16,9 @@ function Home() {
         }}
       >
         <h1>Home</h1>
+        
       </div>
+
     </PageContainer>
   );
 }
