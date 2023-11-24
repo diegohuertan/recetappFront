@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import '../../styles/crearReceta.css';
 import PageContainer from '../../components/container/PageContainer';
+import { Grid, Paper, Typography } from '@mui/material';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import { Link } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
 
 const serverUrl = 'http://localhost:3000';
 
@@ -13,9 +19,30 @@ function CrearReceta() {
     const [ingredientes, setIngredientes] = useState([]);
     const [pasos, setPasos] = useState([]);
     const [imagen, setImagen] = useState(null);
-    const [parte1, setParte1] = useState(true);
-    const [parte2, setParte2] = useState(false);
-    const [parte3, setParte3] = useState(false);
+    const [ListIngredientes, setListIngredientes] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+    const [ListUtensilios, setListUtensilios] = useState([]);
+    const [selectedUtensilios, setSelectedUtensilios] = useState([]);
+
+
+    
+    axios.get(`${serverUrl}/api/ingredientes`)
+        .then((response) => {
+            const nombres = response.data.map(ingrediente => ingrediente.nombre);
+            setListIngredientes(nombres); // Aquí se actualiza el estado
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+        axios.get(`${serverUrl}/api/utensilios`)
+        .then((response) => {
+            const nombres = response.data.map(utensilio => utensilio.nombre);
+            setListUtensilios(nombres); // Aquí se actualiza el estado
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
     const handleTituloChange = (event) => {
         setTitulo(event.target.value);
@@ -48,6 +75,7 @@ function CrearReceta() {
             imagen
         };
 
+        
         axios.post(`${serverUrl}/api/crearRecetas`, nuevaReceta)
             .then((response) => {
                 console.log('Receta creada:', response.data);
@@ -56,9 +84,7 @@ function CrearReceta() {
                 setIngredientes([]);
                 setPasos([]);
                 setImagen(null);
-                setParte1(true);
-                setParte2(false);
-                setParte3(false);
+            
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -66,77 +92,103 @@ function CrearReceta() {
     };
 
     return (
+        
+        
         <PageContainer >
-            {parte1 && (
-            <Form onSubmit={handleSubmit} className='crearreceta'>
-                <Form.Group controlId="formTitulo">
-                    <Form.Label>Título</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese el título de la receta" value={titulo} onChange={handleTituloChange} />
-                </Form.Group>
+        <div className="crearReceta">
+        <Grid container spacing={0} padding={2}>
+            <Grid item xs={12} md={5} marginBottom={1} marginRight={3}>
+                <Paper sx={{backgroundColor:'lightblue' , padding:3}}>
+                
+                    <Paper sx={{backgroundColor:'grey', padding:1}}>
+                    <Typography variant="h6" gutterBottom component="div">
+                        Carga la imagen de la receta
+                    </Typography>
+                    
+                <Link to={`/Recetas`}>
+                <FileUploadIcon sx={{alignItems:'center', height:100, minWidth:100}}/>
+                </Link>
+                </Paper>
 
-                <Form.Group controlId="formUtensilio">
-                    <Form.Label>Utensilio</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese el utensilio utilizado en la receta" value={utensilio} onChange={handleUtensilioChange} />
-                </Form.Group>
+                
+                </Paper>
+                <Paper sx={{marginTop: 2}}>
+                    <Typography variant="h6" gutterBottom component="div">
+                    Descripcion De La Receta
+                    </Typography>
 
-                <Button variant="primary" type="submit" onClick={() => { setParte1(false); setParte2(true); }}>
-                    Siguiente
-                </Button>
-            </Form>
-            )}
+                </Paper>
+                <Paper sx={{marginTop: 2}}>
+                    <Typography variant="h6" gutterBottom component="div">
+                    Pasos De La Receta
+                    </Typography>
+                </Paper>
 
-            {parte2 && (
-                <Form onSubmit={handleSubmit} className='crearreceta'>
-                    <Form.Group controlId="formIngredientes">
-                        <Form.Label>Ingredientes</Form.Label>
-                        <Form.Control as="select" onChange={handleIngredienteChange}>
-                            <option value="">Seleccione un ingrediente</option>
-                            <option value="Harina">Harina</option>
-                            <option value="Azúcar">Azúcar</option>
-                            <option value="Sal">Sal</option>
-                            <option value="Leche">Leche</option>
-                            <option value="Huevos">Huevos</option>
-                        </Form.Control>
-                        {ingredientes.length > 0 && (
-                            <ul>
-                                {ingredientes.map((ingrediente, index) => (
-                                    <li key={index}>{ingrediente}</li>
-                                ))}
-                            </ul>
-                        )}
-                    </Form.Group>
 
-                    <Form.Group controlId="formPasos">
-                        <Form.Label>Pasos</Form.Label>
-                        <Form.Control type="text" placeholder="Ingrese un paso de la receta" onChange={handlePasoChange} />
-                        {pasos.length > 0 && (
-                            <ol>
-                                {pasos.map((paso, index) => (
-                                    <li key={index}>{paso}</li>
-                                ))}
-                            </ol>
-                        )}
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit" onClick={() => { setParte2(false); setParte3(true); }}>
-                    Siguiente
-                </Button>
-            </Form>
-            )}
-            {parte3 && (
-            <Form onSubmit={handleSubmit} className='crearreceta'>
-                <Form.Group controlId="formImagen">
-                    <Form.Label>Imagen</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese la URL de la imagen" value={imagen} onChange={handleImagenChange} />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" >
-                    Crear receta
-                </Button>
-            </Form>
-            )}
+            </Grid>  
+            <Grid item xs={12} md={6.8} marginBottom={1}>
+                <Paper sx={{ padding:3, marginBottom:2}}>
+                <Typography variant="h6" gutterBottom component="div"> 
+                Receta
+                </Typography>
+                <TextField fullWidth label="Titulo Receta" id="fullWidth" />
+                
+                </Paper>
+                
+                <Paper sx={{padding:1,  marginBottom:2}}>
+                    <Typography variant="h6" gutterBottom component="div">
+                        Ingredientes
+                    </Typography>
+                    
+                    <Autocomplete
+                        multiple
+                        id="combo-box-demo"
+                        options={ListIngredientes}
+                        sx={{ width: 300 }}
+                        onChange={(event, newValues) => {
+                            setSelectedIngredients(newValues);
+                        }}
+                        renderInput={(params) => <TextField {...params} label="Lista De Ingredientes" />}
+                    />
+                    <List>
+                        <Typography variant='p' gutterBottom component="div">
+                            Lista de ingredientes
+                        </Typography>
+                        {selectedIngredients.map((ingrediente) => (
+                            <ListItem key={ingrediente}>{ingrediente}</ListItem>
+                        ))}
+                    </List>
+                </Paper>
+                <Paper sx={{padding:1, marginBottom:2 }}>
+                    <Typography variant="h6" gutterBottom component="div">
+                        Utensilios
+                    </Typography>
+                    
+                    <Autocomplete
+                        multiple
+                        id="combo-box-demo"
+                        options={ListUtensilios}
+                        sx={{ width: 300 }}
+                        onChange={(event, newValues) => {
+                            setSelectedIngredients(newValues);
+                        }}
+                        renderInput={(params) => <TextField {...params} label="Lista De Utensilios" />}
+                    />
+                    <List>
+                        <Typography variant='p' gutterBottom component="div">
+                            Lista de utensilios
+                        </Typography>
+                        {selectedUtensilios.map((utensilio) => (
+                            <ListItem key={utensilio}>{utensilio}</ListItem>
+                        ))}
+                    </List>
+                </Paper>
+            </Grid>
+        </Grid>
+        </div>
         </PageContainer>
     );
+    
 }
 
 export default CrearReceta;

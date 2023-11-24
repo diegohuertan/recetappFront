@@ -21,6 +21,7 @@ const RecetaIformacion = Loadable(lazy(() => import("../pages/receta/RecetaInfo"
 const CreateReceta = Loadable(lazy(() => import("../pages/crear/crearReceta")));
 
 const UserProfile = Loadable(lazy(() => import("../pages/usuario/usuario")));
+
 /* ****Routes***** */
 
 const Router = [
