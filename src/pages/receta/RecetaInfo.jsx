@@ -12,213 +12,211 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-
+import Rating from '@mui/material/Rating';
+import { Navigate } from 'react-router-dom';
+import { Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 
 const serverUrl = 'http://localhost:3000';
 
 function RecetaInfo() {
-  const [Intrucciones, setInstrucciones] = useState([]);
   const [RecetaInfo, setRecetaInfo] = useState([]);
-  const [Valoracion, setValoracion] = useState([]);
   const { id } = useParams();
+  const [comentario, setComentario] = useState('');
+  const [puntuacion, setPuntuacion] = useState('');
+  const [open, setOpen] = useState(false);
+  const [Usuario, setUsuario] = useState({ usuario_id: '', correo: '' });
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    axios.post(`${serverUrl}/api/obtenerUsuario`, { token })
+      .then((response) => {
+        console.log(response.data);      
+        const { usuario_id, correo } = response.data;
+        setUsuario({ usuario_id, correo });
+        console.log(usuario_id, correo);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  const token = localStorage.getItem('token');
+  if (!token) {
+    setOpen(true);
+  }
+  const data = {
+    receta_id: RecetaInfo._id,
+    usuario: {usuario_id:Usuario.usuario_id,correo: Usuario.correo},
+    comentario, 
+    puntuacion
+  };
+  console.log(data);
+
+  // Llamada a la API para crear una valoración
+  axios.post(`${serverUrl}/api/crearValoracion`, data, {
+  
+  })
+  .then((response) => {
+    console.log(response.data);
+
+    // Llamada a la API para actualizar la receta
+    axios.put(`${serverUrl}/api/actualizarReceta/${RecetaInfo._id}`, data, {
+    
+    })
+    .then((response) => {
+      console.log(response.data);
+      // Aquí puedes manejar la respuesta de la API
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+};
+
+  const handleChange = (event) => {
+    setComentario(event.target.value);
+  };
+
+  const handleRatingChange = (event, newValue) => {
+    setPuntuacion(newValue);
+  };
 
 
   
-  
-
-useEffect(() => {
-    // Realiza la solicitud GET a la API
-    axios.get(`${serverUrl}/api/valoracionReceta/${id}`)
-        .then((response) => {
-            // Actualiza el estado con los datos de la respuesta
-            setValoracion(response.data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-}, []); // Asegúrate de incluir `id` en la lista de dependencias
-
 useEffect(() => {
   const body = {receta_id: id}
   axios.post(`${serverUrl}/api/filtrarId`, body)
-  
   .then((response) => {
     // Actualiza el estado con los datos de la respuesta
     setRecetaInfo(response.data);
-    
   })
   .catch((error) => {
     console.error('Error:', error);
   });
 }, []);  
 
-useEffect(() => {
-  const body = {receta_id: id}
-  axios.post(`${serverUrl}/api/filtrarRecetaId`, body)
-  
-  .then((response) => {
-    // Actualiza el estado con los datos de la respuesta
-    setInstrucciones(response.data);
-    
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-}, []);  
 
-  return (
-    
-    <PageContainer title="Vista Recetas" description="aaaaaaaaaaaaaaaaa" >
-
-      <div className='receta-container'>
-      <Link to={`/Recetas`}>
-      <Button variant="contained" color="primary"  sx={{backgroundColor: 'grey'}}>
-        <ArrowBackIosNewIcon/> Volver
-      </Button>
+return (
+  <PageContainer title="Vista Recetas" description="aaaaaaaaaaaaaaaaa" >
+    <div className='receta-container'>
+    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <MuiAlert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+        Debes estar autenticado para enviar un comentario.
+      </MuiAlert>
+    </Snackbar>
+      <Link to={`/Recetas`} style={{marginLeft:10,marginTop:10}}>
+        <Button variant="contained" color="primary"  sx={{backgroundColor: 'grey'}}>
+          <ArrowBackIosNewIcon/> Volver
+        </Button>
       </Link>
-      <Grid  container spacing={2} >  
-      <Grid item xs={12} md={6} >
-      <div className='recetaInfo'>
-        {RecetaInfo.map((receta) => (
-          <Box sx={{ width: '100%', maxWidth: 700 , marginLeft: 10}}>
-            
-            <Typography variant="h1" gutterBottom>
-            
-              {receta.titulo}
-              
-            </Typography>
-            <img src={receta.imagen} alt={receta.titulo} width="520" height="520" style={{border: '2px solid black', borderRadius: '5%'}} />
-
-            
-            
+      <Grid container spacing={2}>  
+        {RecetaInfo && <>
           
+          <Grid sx={{marginTop:3, marginLeft:4}} item xs={12} sm={6} md={5}>
+          <img src={RecetaInfo.imagen} alt={RecetaInfo.titulo} style={{ width:'100%', marginBottom:20}}  />
           
-                
-          </Box>
-
-
-        ))}
-      </div>
-      </Grid>
-
-      <Grid item xs={12} md={6} >
-      <div className='InstruccionesInfo'>
-
-      <Typography variant="h1" gutterBottom>
-            
-           Preparacion
-            
-          </Typography>
-
-      {RecetaInfo.map((receta) => (
-          <Box>
-            
-            <Typography variant="h3" gutterBottom>
-            
-              
-              
+          <Typography variant="h6" gutterBottom>
+              {RecetaInfo.descripcion}
             </Typography>
-
-            <Typography variant="h3" gutterBottom>
-                utensilios
+            <Paper sx={{padding:1, marginBottom:2, border: '1px solid black'}}>
+           <Typography variant="h6" gutterBottom style={{ borderBottom: '1px solid black' , padding:4}}>
+              Ingredientes
             </Typography>
-            <Typography variant="body" gutterBottom>
-                {receta.utensilio}
+            {RecetaInfo.ingredientes && <ul>
+              {RecetaInfo.ingredientes.map((ingrediente, index) => (
+                <li key={index}>{ingrediente.nombre}</li>
+              ))}
+            </ul>}
+            <Typography variant="h6" gutterBottom style={{ borderBottom: '1px solid black' , padding:4}}>
+              Utensilios
             </Typography>
-
-
+            {RecetaInfo.utensilios && <ul>
+              {RecetaInfo.utensilios.map((utensilio, index) => (
+                <li key={index}>{utensilio.nombre}</li>
+              ))}
+            </ul>}
             
-            <Box sx={{ width: '100%', maxWidth: 700 }}
-            ><Typography variant="h3" gutterBottom>
-               Ingredientes
-              
+            </Paper>
+          </Grid>
+          <Grid sx={{marginTop:3, textAlign:'justify', marginRight:2}} item xs={12} sm={6} md={5}>
+            <Typography variant="h4" gutterBottom style={{ borderBottom: '2px solid black' }}>
+              {RecetaInfo.titulo}
             </Typography>
-        
             
-            
-              
-            </Box>
-            
-          
-          
-                
-          </Box>
-
-
-        ))}
-
-        {Intrucciones.map((instruccion) => (
-
-          
-
-           <Box sx={{ width: '100%', maxWidth: 700 }}>
+            <Paper sx={{padding:1, marginBottom:2, border: '1px solid black'}}>
            
-          <Typography variant="h6" gutterBottom>
-            Paso a Paso
-          </Typography>
-          <Typography variant="body" gutterBottom>
-
-            {instruccion.descripcion}
-
-          </Typography>
-          <Typography variant="h6" gutterBottom>
-
-            Tips del chef
-
-          </Typography>
-          <Typography variant="body2" gutterBottom>
-
-            {instruccion.tip}
-          </Typography>  
-          
-            </Box>      
-
-             
-        ))}
-
-      </div>
-      </Grid>
-      <Grid item xs={6} md={12}>
-      <div className='ValoracionInfo'>
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow sx={{backgroundColor: 'black'}}>
-            <TableCell sx={{color: 'white'}}>Usuario</TableCell>
-            <TableCell  align="right" sx={{color: 'white'}}>Comentario</TableCell>
-            <TableCell align="right" sx={{color: 'white'}}>Puntuacion</TableCell>
-    
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {Valoracion.map((valoracion) => (
-            <TableRow
-              key={valoracion.valoracion_id}
-              sx={{ '&:last-child td, &:lastchild th': { borderRadius: 10 } }}
+           {RecetaInfo.valoraciones && <ul>
+             {RecetaInfo.valoraciones.map((ingrediente, index) => (
+               <li key={index}>{ingrediente}</li>
+             ))}
+           </ul>}
+           
+           
+           </Paper>
+            <Paper sx={{padding:2, marginBottom:2, border: '1px solid black'}}>
+            <Typography variant="h6" gutterBottom style={{ borderBottom: '1px solid black' , padding:4}}>
+              Preparacion
+            </Typography>
+           
+           {RecetaInfo.procedimientos && <ol>
+             {RecetaInfo.procedimientos.map((procedimiento, index) => (
+               <li key={index}>{procedimiento.instruccion}</li>
+             ))}
+           </ol>}
+           </Paper>
+           <Paper sx={{padding:2, marginBottom:2, border: '1px solid black'}}>
+           <form onSubmit={handleSubmit}>
+            <TextField 
+              fullWidth 
+              label="Comentario" 
+              id="fullWidth" 
+              value={comentario} 
+              onChange={handleChange} 
+            />
+            <Rating
+              name="simple-controlled"
+              value={puntuacion}
+              onChange={handleRatingChange}
+            />
+            <Button 
+              variant="contained" 
+              color="primary"  
+              sx={{backgroundColor: 'grey', marginTop:1, marginLeft:1}} 
+              type="submit"
             >
-              <TableCell component="th" scope="row">
-                {valoracion.usuario_id  }
-              </TableCell>
-              <TableCell align="right">{valoracion.comentario}</TableCell>
-              <TableCell align="right">{valoracion.puntuacion}</TableCell>
-             
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer> 
-      </div>
+              Comentar
+            </Button>
+          </form>
+          </Paper>
+          </Grid>
+            
+          
+        </>}
+     
       </Grid>
-      </Grid>
-      </div>
-    </PageContainer>
-  );
-}
+    </div>
+  </PageContainer>
+);
+  }
 
 export default RecetaInfo;

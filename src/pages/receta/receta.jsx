@@ -26,16 +26,15 @@ function Recetas() {
     
     <PageContainer title="Vista Recetas" description="aaaaaaaaaaaaaaaaa" >
       
-      <div className='recetas-container'>
-        
+      <div className='receta-container'>
       
       {recetas.map((receta) => (
-        <RecipeReviewCard className='receta-card'
+        <RecipeReviewCard  className='receta-card'
+
           key={receta.receta_id} 
           receta={receta} 
         />
       ))}
-      
       </div>
     </PageContainer>
   );
