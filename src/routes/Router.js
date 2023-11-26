@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import Loadable from "../layouts/loadable";
 import { Navigate } from "react-router-dom";
+import PrivateRoute from "./PrivateRoutes";
 
 /* ***Layouts**** */
 const FullLayout = Loadable(
@@ -22,7 +23,10 @@ const CreateReceta = Loadable(lazy(() => import("../pages/crear/crearReceta")));
 
 const UserProfile = Loadable(lazy(() => import("../pages/usuario/usuario")));
 
-const Registro = Loadable(lazy(() => import("../pages/registro/registro")));
+const LoginUser = Loadable(lazy(() => import("../pages/login/login")));
+
+
+
 /* ****Routes***** */
 
 const Router = [
@@ -34,9 +38,10 @@ const Router = [
       { path: "*", element: <Navigate to="/404" /> },
       { path: "404", element: <Error /> },
       { path: "Recetas", element: <RecetasView /> },
-      { path: "CrearReceta", element: <CreateReceta /> },
+      { path: "CrearReceta", element: <PrivateRoute><CreateReceta /> </PrivateRoute>},
       { path: "Perfil", element: <UserProfile /> },
       { path: "RecetaInfo/:id", element: <RecetaIformacion /> },
+      { path: "Login", element: <LoginUser /> },
       { path: "Registro", element: <Registro /> }
       
     ],
