@@ -22,6 +22,7 @@ const CreateReceta = Loadable(lazy(() => import("../pages/crear/crearReceta")));
 
 const UserProfile = Loadable(lazy(() => import("../pages/usuario/usuario")));
 
+const Registro = Loadable(lazy(() => import("../pages/registro/registro")));
 /* ****Routes***** */
 
 const Router = [
@@ -36,6 +37,7 @@ const Router = [
       { path: "CrearReceta", element: <CreateReceta /> },
       { path: "Perfil", element: <UserProfile /> },
       { path: "RecetaInfo/:id", element: <RecetaIformacion /> },
+      { path: "Registro", element: <Registro /> }
       
     ],
   },
