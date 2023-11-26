@@ -6,18 +6,32 @@ import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 function Header() {
   const pages = ["Recetas", "CrearReceta", "Perfil"];
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const settings = ["Profile", "Login", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    // Aquí puedes redirigir al usuario a la página de inicio de sesión o hacer cualquier otra limpieza necesaria
+    navigate('/');
+  };
+
+  const handleLogin = () => {
+    navigate('/Login');
   };
 
   const handleCloseNavMenu = () => {
@@ -197,7 +211,14 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={
+                    setting === 'Logout' ? handleLogout :
+                    setting === 'Login' ? handleLogin :
+                    handleCloseUserMenu
+                  }
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
