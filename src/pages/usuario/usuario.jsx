@@ -4,6 +4,7 @@ import '../../styles/usuario.css';
 import Card from 'react-bootstrap/Card';
 import PageContainer from '../../components/container/PageContainer';
 import RecipeReviewCard from '../receta/components/recetacard';
+import { Paper, Typography } from '@mui/material';
 
 //import Button from 'react-bootstrap/Button';
 //import Modal from 'react-bootstrap/Modal';
@@ -25,19 +26,24 @@ function Usuario() {
       axios.post(`${serverUrl}/api/obtenerUsuario`, { token })
         .then((response) => {    
           const { usuario_id, correo } = response.data;
+          
           setUsuario({ usuario_id, correo });
-          console.log(Usuario);
+         
         })
         .catch((error) => {
           console.error('Error:', error);
         });
     }, []);
+    
     useEffect(() => {
       // Realiza la solicitud GET a la API
-      axios.get(`${serverUrl}/api/filterByUsuario`,{Usuario})
+      
+      
+      axios.post(`${serverUrl}/api/filterByUsuario`,{"usuario":Usuario})
         .then((response) => {
           // Actualiza el estado con los datos de la respuesta
           setRecetas(response.data);
+          
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -52,16 +58,31 @@ function Usuario() {
       borderRadius: '5px',
       boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
       maxWidth: '300px', // Puedes ajustar el ancho según tus necesidades
-      margin: '0px',
+      margin: 'auto',
       marginTop: '20px',}
 
 
     return (
-      <div style={recuadroStyle}>
+      <PageContainer title="Vista Recetas" description="aaaaaaaaaaaaaaaaa">
+      <><div style={recuadroStyle}>
         <h2>Detalles del Usuario</h2>
         <p>Usuario id: {Usuario.usuario_id}</p>
         <p>Correo del Usuario: {Usuario.correo}</p>
       </div>
+
+          <div className='receta-container'>
+          <Typography variant="h3" gutterBottom sx={{marginLeft:70,marginTop:5}}>
+              Mis Recetas
+            </Typography>
+            {recetas.map((receta) => (
+              <RecipeReviewCard className='receta-card'
+
+                key={receta.receta_id}
+                receta={receta} />
+            ))}
+          </div>
+          </>
+        </PageContainer>
      );
   }
   
