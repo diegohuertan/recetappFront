@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function Header() {
-  const pages = ["Recetas", "Agregar", "Perfil"];
+  const pages = ["Recetas", "Agregar", "Perfil",, "Registro"];
 
   const settings = ["Profile", "Login", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);

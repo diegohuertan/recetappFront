@@ -39,7 +39,7 @@ const Router = [
       { path: "404", element: <Error /> },
       { path: "Recetas", element: <RecetasView /> },
       { path: "agregar", element: <PrivateRoute><CreateReceta /> </PrivateRoute>},
-      { path: "Perfil", element: <UserProfile /> },
+      { path: "Perfil", element: <PrivateRoute><UserProfile /></PrivateRoute> },
       { path: "RecetaInfo/:id", element: <RecetaIformacion /> },
       { path: "Login", element: <LoginUser /> },
       { path: "Registro", element: <Registro /> }
