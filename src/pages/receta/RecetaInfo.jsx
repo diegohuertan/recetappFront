@@ -31,16 +31,23 @@ function RecetaInfo() {
   const [puntuacion, setPuntuacion] = useState('');
   const [open, setOpen] = useState(false);
   const [Usuario, setUsuario] = useState({ usuario_id: '', correo: '' });
+  const [RecetaConVal, setRecetaConVal] = useState([]);
+  
+  const columns = [
+    { field: 'comentario', headerName: 'Comentario', width: 200 },
+    { field: 'puntuacion', headerName: 'Puntuación', width: 130 },
+    { field: 'correo', headerName: 'Correo', width: 200 },
+  ];
+
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     axios.post(`${serverUrl}/api/obtenerUsuario`, { token })
       .then((response) => {
         console.log(response.data);      
         const { usuario_id, correo } = response.data;
         setUsuario({ usuario_id, correo });
-        console.log(usuario_id, correo);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -56,37 +63,24 @@ function RecetaInfo() {
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   if (!token) {
     setOpen(true);
   }
   const data = {
-    receta_id: RecetaInfo._id,
+    Receta_id: RecetaInfo._id,
     usuario: {usuario_id:Usuario.usuario_id,correo: Usuario.correo},
     comentario, 
     puntuacion
   };
-  console.log(data);
 
   // Llamada a la API para crear una valoración
   axios.post(`${serverUrl}/api/crearValoracion`, data, {
   
   })
   .then((response) => {
-    console.log(response.data);
-
-    // Llamada a la API para actualizar la receta
-    axios.put(`${serverUrl}/api/actualizarReceta/${RecetaInfo._id}`, data, {
-    
-    })
-    .then((response) => {
-      console.log(response.data);
-      // Aquí puedes manejar la respuesta de la API
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-
+    console.log("valoracion creada",response.data);
+    setRecetaConVal(response.data);
   })
   .catch((error) => {
     console.error('Error:', error);
@@ -101,8 +95,17 @@ const handleSubmit = (event) => {
     setPuntuacion(newValue);
   };
 
+  let rows = [];
 
-  
+  if (RecetaConVal && RecetaConVal.valoraciones) {
+    rows = RecetaConVal.valoraciones.map((valoracion, index) => ({
+      id: index,
+      comentario: valoracion.comentario,
+      puntuacion: valoracion.puntuacion,
+      correo: valoracion.usuario.correo,
+    }));
+  }
+
 useEffect(() => {
   const body = {receta_id: id}
   axios.post(`${serverUrl}/api/filtrarId`, body)
@@ -114,6 +117,9 @@ useEffect(() => {
     console.error('Error:', error);
   });
 }, []);  
+
+
+
 
 
 return (
@@ -157,22 +163,14 @@ return (
             </ul>}
             
             </Paper>
+            
           </Grid>
           <Grid sx={{marginTop:3, textAlign:'justify', marginRight:2}} item xs={12} sm={6} md={5}>
             <Typography variant="h4" gutterBottom style={{ borderBottom: '2px solid black' }}>
               {RecetaInfo.titulo}
             </Typography>
             
-            <Paper sx={{padding:1, marginBottom:2, border: '1px solid black'}}>
-           
-           {RecetaInfo.valoraciones && <ul>
-             {RecetaInfo.valoraciones.map((ingrediente, index) => (
-               <li key={index}>{ingrediente}</li>
-             ))}
-           </ul>}
-           
-           
-           </Paper>
+            
             <Paper sx={{padding:2, marginBottom:2, border: '1px solid black'}}>
             <Typography variant="h6" gutterBottom style={{ borderBottom: '1px solid black' , padding:4}}>
               Preparacion
@@ -208,12 +206,48 @@ return (
             </Button>
           </form>
           </Paper>
+           <form onSubmit={handleSubmit}>
+           
+            <Button 
+              variant="contained" 
+              color="primary"  
+              sx={{backgroundColor: 'grey', marginTop:1, marginLeft:1}} 
+              type="submit"
+            >
+              Ver valoraciones
+            </Button>
+          </form>
           </Grid>
             
           
         </>}
      
       </Grid>
+      <TableContainer component={Paper} sx={{marginBottom:1, padding:1}}>
+      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Comentario</TableCell>
+            <TableCell align="right">Puntuación</TableCell>
+            <TableCell align="right">Correo</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow
+              key={row.id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.comentario}
+              </TableCell>
+              <TableCell align="right">{row.puntuacion}</TableCell>
+              <TableCell align="right">{row.correo}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </div>
   </PageContainer>
 );

@@ -44,7 +44,7 @@ function Login() {
 
           console.log('Inicio de sesión exitoso');
           // Almacena el token web en el almacenamiento local del navegador
-          localStorage.setItem('token', response.data.token);
+          sessionStorage.setItem('token', response.data.token);
 
           navigate('/');
         } else {

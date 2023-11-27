@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const serverUrl = 'http://localhost:3000';
@@ -26,8 +28,22 @@ function CrearReceta() {
     const [Usuario, setUsuario] = useState([]);
     const [pasos, setPasos] = useState([""]);
 
+
+    const navigate = useNavigate();
+
+    const resetForm = () => {
+        setTitulo('');
+        setDescripcion('');
+        setImagen(null);
+        setSelectedIngredients([]);
+        setSelectedUtensilios([]);
+        setPasos([""]);
+
+        navigate('/recetas');
+    };
+
 useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     axios.post(`${serverUrl}/api/obtenerUsuario`, { token })
         .then((response) => {
@@ -111,6 +127,8 @@ useEffect(() => {
         axios.post(`${serverUrl}/api/crearReceta`, nuevaReceta)
             .then((response) => {
                 console.log('Receta creada:', response.data);
+                alert('Receta creada con exito');
+                resetForm();
             })
             .catch((error) => {
                 console.error('Error:', error);
