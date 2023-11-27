@@ -147,7 +147,7 @@ function Registro() {
            )}
             <Grid container justifyContent="flex-end">
               <Grid item>
-              <Link to={`/recetas`}>
+              <Link to={`/login`}>
                 <Button>
                   Ya estás registrado? Ingresa aquí
                   </Button>
