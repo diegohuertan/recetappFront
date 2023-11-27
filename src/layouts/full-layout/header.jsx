@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 
 
 function Header() {
-  const pages = ["Recetas", "CrearReceta", "Perfil","Registro"];
+  const pages = ["Recetas", "Agregar", "Perfil"];
+
   const settings = ["Profile", "Login", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -25,7 +26,7 @@ function Header() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     // Aquí puedes redirigir al usuario a la página de inicio de sesión o hacer cualquier otra limpieza necesaria
     navigate('/');
   };
