@@ -25,7 +25,7 @@ const UserProfile = Loadable(lazy(() => import("../pages/usuario/usuario")));
 
 const LoginUser = Loadable(lazy(() => import("../pages/login/login")));
 
-
+const Registro = Loadable(lazy(()=> import("../pages/registro/registro")));
 
 /* ****Routes***** */
 
@@ -42,6 +42,7 @@ const Router = [
       { path: "Perfil", element: <UserProfile /> },
       { path: "RecetaInfo/:id", element: <RecetaIformacion /> },
       { path: "Login", element: <LoginUser /> },
+      { path: "Registro", element: <Registro /> }
       
     ],
   },

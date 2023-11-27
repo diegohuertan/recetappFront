@@ -7,8 +7,8 @@ import Carousel from "./componentes/carrusel";
 function Home() {
 
   return (
-<PageContainer>
-<Box height="100%">
+    <PageContainer>
+      <Box height="100%">
         <Carousel />
       </Box>
     </PageContainer>

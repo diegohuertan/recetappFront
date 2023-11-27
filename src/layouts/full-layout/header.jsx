@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 function Header() {
   const pages = ["Recetas", "Agregar", "Perfil"];
+
   const settings = ["Profile", "Login", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
