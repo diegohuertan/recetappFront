@@ -3,6 +3,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './carrusel.css';
+import BasicButtons from './Button';
+import { Link } from 'react-router-dom';
+
 const Carousel = () => {
   const settings = {
     dots: false,
@@ -62,6 +65,14 @@ const Carousel = () => {
         <div className='centeredContainer'>
           <div className='LogoWrapper'>
             <img src='/image.png' alt='titulo'/>
+          </div>
+          <div className='Titulo'>
+            <img src='/Texto.png' alt='descripcion'/>
+          </div>
+          <div>
+          <Link to={`/recetas`}>
+            <BasicButtons/>
+          </Link>
           </div>
         </div>
       </div>
