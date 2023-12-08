@@ -28,7 +28,7 @@ function Usuario() {
           const { usuario_id, correo } = response.data;
           
           setUsuario({ usuario_id, correo });
-         
+          console.log(Usuario);
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -43,7 +43,7 @@ function Usuario() {
         .then((response) => {
           // Actualiza el estado con los datos de la respuesta
           setRecetas(response.data);
-          
+          console.log(response.data);
         })
         .catch((error) => {
           console.error('Error:', error);
