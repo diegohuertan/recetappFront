@@ -38,8 +38,8 @@ const Router = [
       { path: "*", element: <Navigate to="/404" /> },
       { path: "404", element: <Error /> },
       { path: "Recetas", element: <RecetasView /> },
-      { path: "agregar", element: <PrivateRoute><CreateReceta /> </PrivateRoute>},
-      { path: "Perfil", element: <PrivateRoute><UserProfile /></PrivateRoute> },
+      { path: "agregar", element: <CreateReceta /> },
+      { path: "Perfil", element: <UserProfile /> },
       { path: "RecetaInfo/:id", element: <RecetaIformacion /> },
       { path: "Login", element: <LoginUser /> },
       { path: "Registro", element: <Registro /> }
